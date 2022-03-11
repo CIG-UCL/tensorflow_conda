@@ -1,0 +1,12 @@
+name: tf28
+channels:
+  - nvidia/label/cuda-11.3.1
+  - nvidia/label/cuda-11.3.0
+  - defaults
+dependencies:
+  - cuda=11.3.0
+  - cudnn=8.2.1
+  - pip=21.2.4
+  - python=3.9.7
+  - pip:
+    - tensorflow==2.8.0
