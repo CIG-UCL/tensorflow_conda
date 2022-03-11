@@ -1,11 +1,27 @@
 #!/usr/bin/env bash
+set -e
 
-conda_env_name=tf28
+if [ -z "$1" ]
+  then
+    echo "Please supply environment name, e.g: bash setup_env.sh tf_28"
+    exit 1
+fi
 
+#Create the conda env
+conda_env_name=$1
 conda env create -n ${conda_env_name} -f environment.yaml
 
-mkdir -p ${CONDA_PREFIX}/etc/conda/activate.d
-mkdir -p ${CONDA_PREFIX}/etc/conda/deactivate.d
+#Get the location of the install
+conda_env_root=$(conda env list | grep $conda_env_name | awk '{print $2}')
 
-cp ./activate.d/env_vars.sh ${CONDA_PREFIX}/etc/conda/activate.d/env_vars.sh
-cp ./deactivate.d/env_vars.sh ${CONDA_PREFIX}/etc/conda/deactivate.d/env_vars.sh
+#Put the activation scripts into the right place
+mkdir -p ${conda_env_root}/etc/conda/activate.d
+mkdir -p ${conda_env_root}/etc/conda/deactivate.d
+
+echo "#!/bin/sh" >> ${conda_env_root}/etc/conda/activate.d/env_vars.sh
+echo "export LD_LIBRARY_PATH_ORIG=\${LD_LIBRARY_PATH}" >> ${conda_env_root}/etc/conda/activate.d/env_vars.sh
+echo "export LD_LIBRARY_PATH=${conda_env_root}/lib:\${LD_LIBRARY_PATH}" >> ${conda_env_root}/etc/conda/activate.d/env_vars.sh
+
+echo "#!/bin/sh" >> ${conda_env_root}/etc/conda/deactivate.d/env_vars.sh
+echo "export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH_ORIG}" >> ${conda_env_root}/etc/conda/deactivate.d/env_vars.sh
+echo "unset LD_LIBRARY_PATH_orig" >> ${conda_env_root}/etc/conda/deactivate.d/env_vars.sh
