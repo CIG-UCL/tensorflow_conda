@@ -1,6 +1,6 @@
 # tensorflow_conda
 
-A guide to setup tensorflow 2.8 with conda on stour. In short, you should be able to setup the environment by running
+A guide to setup tensorflow 2.8 with conda on stour. In short, you should be able to setup the environment by running from a bash shell in which conda has been setup using `conda init bash`
 
 ``` sh
 ./setup_env.sh <env_name>
