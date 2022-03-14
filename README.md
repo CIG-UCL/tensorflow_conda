@@ -3,8 +3,9 @@
 A guide to setup tensorflow 2.8 with conda on stour. In short, you should be able to setup the environment by running
 
 ``` sh
-bash setup_env.sh
+./setup_env.sh <env_name>
 ```
+You may need to chmod +x setup_env.sh to get the right permissions to run.
 
 ## What's happening
 In the environment.yaml file, we setup the conda environment by installing cuda from the nvidia channel and a bunch of other things from the standard anaconda channel with then installs tensorflow 2.8.0 using pip. 
